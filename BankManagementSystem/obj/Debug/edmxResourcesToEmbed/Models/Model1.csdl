@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Database1Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Bank">
+    <Key>
+      <PropertyRef Name="AccountId" />
+    </Key>
+    <Property Name="AccountId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Balance" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Deposite" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="AccOpenningDate" Type="DateTime" Nullable="false" Precision="0" />
+    <NavigationProperty Name="Clients" Relationship="Self.FK__Client__AccountI__36B12243" FromRole="Bank" ToRole="Client" />
+  </EntityType>
+  <EntityType Name="Client">
+    <Key>
+      <PropertyRef Name="ClientId" />
+    </Key>
+    <Property Name="ClientId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Gender" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="AccountId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Bank" Relationship="Self.FK__Client__AccountI__36B12243" FromRole="Client" ToRole="Bank" />
+  </EntityType>
+  <Association Name="FK__Client__AccountI__36B12243">
+    <End Role="Bank" Type="Self.Bank" Multiplicity="1" />
+    <End Role="Client" Type="Self.Client" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Bank">
+        <PropertyRef Name="AccountId" />
+      </Principal>
+      <Dependent Role="Client">
+        <PropertyRef Name="AccountId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="DbModelContext" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Banks" EntityType="Self.Bank" />
+    <EntitySet Name="Clients" EntityType="Self.Client" />
+    <AssociationSet Name="FK__Client__AccountI__36B12243" Association="Self.FK__Client__AccountI__36B12243">
+      <End Role="Bank" EntitySet="Banks" />
+      <End Role="Client" EntitySet="Clients" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
